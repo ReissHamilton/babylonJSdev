@@ -1,3 +1,5 @@
+//-------------------------------------------------------
+// TOP OF CODE - IMPORTING BABYLONS
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import {
@@ -11,8 +13,11 @@ import {
     Camera,
     Engine,
   } from "@babylonjs/core";
-  
-  
+  //-------------------------------------------------------
+
+  //-------------------------------------------------------
+  // MIDDLE OF CODE - FUNCTIONS
+
   function createBox(scene: Scene) {
     let box = MeshBuilder.CreateBox("box",{size: 1}, scene);
     box.position.y = 3;
@@ -61,7 +66,10 @@ import {
     camera.attachControl(true);
     return camera;
   }
-  
+  //-------------------------------------------------------
+
+  //-------------------------------------------------------
+  // BOTTOM OF CODE - MAIN RENDERING
   export default function createStartScene(engine: Engine) {
     interface SceneData {
       scene: Scene;
@@ -82,3 +90,5 @@ import {
     that.camera = createArcRotateCamera(that.scene);
     return that;
   }
+  //-------------------------------------------------------
+  //-------------------------------------------------------
