@@ -3,13 +3,10 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import {
-    Scene,
-    ArcRotateCamera,
-    Vector3,
-    HemisphericLight,
+    Scene, ArcRotateCamera, Vector3, HemisphericLight,
     MeshBuilder,
     Mesh,
-    Light,
+    Light, Color3,
     Camera,
     Engine,
   } from "@babylonjs/core";
@@ -28,6 +25,9 @@ import {
   function createLight(scene: Scene) {
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
+    light.diffuse = new Color3(1, 0, 0);
+    light.specular = new Color3(0, 1, 0);
+    light.groundColor = new Color3(0, 1, 0);
     return light;
   }
   
