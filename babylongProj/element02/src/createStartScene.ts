@@ -12,17 +12,52 @@ import {
     Light,
     Camera,
     Engine,
+    Texture,
+    StandardMaterial,
+    CubeTexture,
+    Color3
   } from "@babylonjs/core";
   //---------------------------------------------------------
 
   //---------------------------------------------------------
   // MIDDLE OF CODE - FUNCTIONS
   
-  
-  function createBox(scene: Scene) {
-    let box = MeshBuilder.CreateBox("box",{size: 1}, scene);
-    box.position.y = 3;
-    return box;
+  // Create terrain
+  function createTerrain(scene: Scene) {
+   //Create large ground for valley environment
+   const largeGroundMat = new StandardMaterial("largeGroundMat");
+   largeGroundMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/valleygrass.png");
+   
+   const largeGround = MeshBuilder.CreateGroundFromHeightMap("largeGround", "https://assets.babylonjs.com/environments/villageheightmap.png", {width:150, height:150, subdivisions: 20, minHeight:0, maxHeight: 10});
+   largeGround.material = largeGroundMat;
+    return largeGround;
+  }
+
+  // Create more detailed ground
+  function createGround(scene: Scene) {
+    //Create Village ground
+    const groundMat = new StandardMaterial("groundMat");
+    groundMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/villagegreen.png");
+    groundMat.diffuseTexture.hasAlpha = true;
+
+    const ground = MeshBuilder.CreateGround("ground", {width:24, height:24});
+    ground.material = groundMat;
+    ground.position.y = 0.1;
+    return ground;
+  }
+
+  // Create Skybox
+  function createSkybox(scene: Scene) {
+    //Skybox
+    const skybox = MeshBuilder.CreateBox("skyBox", {size:150}, scene);
+	  const skyboxMaterial = new StandardMaterial("skyBox", scene);
+	  skyboxMaterial.backFaceCulling = false;
+	  skyboxMaterial.reflectionTexture = new CubeTexture("textures/skybox", scene);
+	  skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
+	  skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
+	  skyboxMaterial.specularColor = new Color3(0, 0, 0);
+	  skybox.material = skyboxMaterial;
+    return skybox;
   }
 
   
@@ -30,25 +65,6 @@ import {
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
     return light;
-  }
-  
-  function createSphere(scene: Scene) {
-    let sphere = MeshBuilder.CreateSphere(
-      "sphere",
-      { diameter: 2, segments: 32 },
-      scene,
-    );
-    sphere.position.y = 1;
-    return sphere;
-  }
-  
-  function createGround(scene: Scene) {
-    let ground = MeshBuilder.CreateGround(
-      "ground",
-      { width: 6, height: 6 },
-      scene,
-    );
-    return ground;
   }
   
   function createArcRotateCamera(scene: Scene) {
@@ -75,6 +91,8 @@ import {
   export default function createStartScene(engine: Engine) {
     interface SceneData {
       scene: Scene;
+      terrain?: Mesh;
+      skybox?: Mesh;
       box?: Mesh;
       light?: Light;
       sphere?: Mesh;
@@ -85,9 +103,10 @@ import {
     let that: SceneData = { scene: new Scene(engine) };
     that.scene.debugLayer.show();
   
-    that.box = createBox(that.scene);
+    // Spawn Assets
+    that.terrain = createTerrain(that.scene);
+    that.skybox = createSkybox(that.scene);
     that.light = createLight(that.scene);
-    that.sphere = createSphere(that.scene);
     that.ground = createGround(that.scene);
     that.camera = createArcRotateCamera(that.scene);
     return that;
