@@ -6,6 +6,7 @@ import {
     Scene,
     ArcRotateCamera,
     Vector3,
+    Vector4,
     HemisphericLight,
     MeshBuilder,
     Mesh,
@@ -15,7 +16,9 @@ import {
     Texture,
     StandardMaterial,
     CubeTexture,
-    Color3
+    Color3,
+    SpriteManager,
+    Sprite
   } from "@babylonjs/core";
   //---------------------------------------------------------
 
@@ -60,6 +63,65 @@ import {
     return skybox;
   }
 
+  // Creating sprite trees
+  function createTrees(scene: Scene) {
+    const spriteManagerTrees = new SpriteManager("treesManager", "textures/palmtree.png", 2000, {width: 512, height: 1024}, scene);
+
+    //We create trees at random positions
+    for (let i = 0; i < 500; i++) {
+        const tree = new Sprite("tree", spriteManagerTrees);
+        tree.position.x = Math.random() * (-30);
+        tree.position.z = Math.random() * 20 + 8;
+        tree.position.y = 0.5;
+    }
+
+    for (let i = 0; i < 500; i++) {
+        const tree = new Sprite("tree", spriteManagerTrees);
+        tree.position.x = Math.random() * (25) + 7;
+        tree.position.z = Math.random() * -35  + 8;
+        tree.position.y = 0.5;
+    }
+    return spriteManagerTrees;
+  }
+
+  // Create house
+  function createBox(scene: Scene) {
+    // Texture
+    const boxMat = new StandardMaterial("boxMat");
+    boxMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/cubehouse.png")
+
+    //options parameter to set different images on each side
+    const faceUV: Vector4[] = [];
+    faceUV[0] = new Vector4(0.5, 0.0, 0.75, 1.0); //rear face
+    faceUV[1] = new Vector4(0.0, 0.0, 0.25, 1.0); //front face
+    faceUV[2] = new Vector4(0.25, 0, 0.5, 1.0); //right side
+    faceUV[3] = new Vector4(0.75, 0, 1.0, 1.0); //left side
+    // top 4 and bottom 5 not seen so not set
+
+    const box = MeshBuilder.CreateBox("box", {faceUV: faceUV, wrap: true});
+    box.position.y = 0.5;
+    box.material = boxMat;
+    return box;
+  }
+  function createRoof(scene: Scene) {
+    //texture
+    const roofMat = new StandardMaterial("roofMat");
+    roofMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/roof.jpg");
+
+    const roof = MeshBuilder.CreateCylinder("roof", {diameter: 1.3, height: 1.2, tessellation: 3});
+    roof.scaling.x = 0.75;
+    roof.rotation.z = Math.PI / 2;
+    roof.position.y = 1.22;
+    roof.material = roofMat;
+    return roof;
+  }
+  function createHouse(scene: Scene) {
+    const box = createBox(scene);
+    const roof = createRoof(scene);
+    const house = Mesh.MergeMeshes([box, roof]);
+    return house;
+  }
+
   
   function createLight(scene: Scene) {
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
@@ -94,6 +156,9 @@ import {
       terrain?: Mesh;
       skybox?: Mesh;
       box?: Mesh;
+      roof?: Mesh;
+      house?: Mesh;
+      trees?: SpriteManager;
       light?: Light;
       sphere?: Mesh;
       ground?: Mesh;
@@ -106,8 +171,14 @@ import {
     // Spawn Assets
     that.terrain = createTerrain(that.scene);
     that.skybox = createSkybox(that.scene);
+    that.trees = createTrees(that.scene);
     that.light = createLight(that.scene);
     that.ground = createGround(that.scene);
     that.camera = createArcRotateCamera(that.scene);
+
+    // Houses
+    that.box = createBox(that.scene);
+    that.roof = createRoof(that.scene);
+    // that.house = createHouse(that.scene)
     return that;
   }
