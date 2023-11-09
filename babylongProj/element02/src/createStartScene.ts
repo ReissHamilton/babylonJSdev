@@ -118,7 +118,7 @@ import {
   function createHouse(scene: Scene) {
     const box = createBox(scene);
     const roof = createRoof(scene);
-    const house = Mesh.MergeMeshes([box, roof]);
+    const house: any = Mesh.MergeMeshes([box, roof]);
     return house;
   }
 
