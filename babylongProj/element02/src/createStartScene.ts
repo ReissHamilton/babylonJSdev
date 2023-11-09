@@ -118,7 +118,7 @@ import {
   function createHouse(scene: Scene) {
     const box = createBox(scene);
     const roof = createRoof(scene);
-    const house: any = Mesh.MergeMeshes([box, roof]);
+    const house: any = Mesh.MergeMeshes([box, roof], true, false, undefined, false, true);
     return house;
   }
 
@@ -177,8 +177,8 @@ import {
     that.camera = createArcRotateCamera(that.scene);
 
     // Houses
-    that.box = createBox(that.scene);
-    that.roof = createRoof(that.scene);
-    // that.house = createHouse(that.scene)
+    /*that.box = createBox(that.scene);
+    that.roof = createRoof(that.scene);*/
+    that.house = createHouse(that.scene)
     return that;
   }
