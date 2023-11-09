@@ -19,6 +19,7 @@ import {
     SceneLoader,
     ActionManager,
     ExecuteCodeAction,
+    AnimationPropertiesOverride
   } from "@babylonjs/core";
   //---------------------------------------------------------
 
@@ -29,25 +30,55 @@ import {
 
 
   function importPlayerMesh(scene, x: number, y: number) {
-    let item = SceneLoader.ImportMesh("", "./models/", "dummy3.babylon", scene, function(newMeshes) {
+    let tempItem = { flag: false } 
+    let item = SceneLoader.ImportMesh("", "./models/", "dummy3.babylon", scene, function(newMeshes, particleSystems, skeletons) {
     let mesh = newMeshes[0];
+    let skeleton = skeletons[0];
+    skeleton.animationPropertiesOverride = new AnimationPropertiesOverride();
+    skeleton.animationPropertiesOverride.enableBlending = true; 
+    skeleton.animationPropertiesOverride.blendingSpeed = 0.05; 
+    skeleton.animationPropertiesOverride.loopMode = 1;
+
+    let walkRange: any = skeleton.getAnimationRange("YBot_Walk");
+    // let runRange: any = skeleton.getAnimationRange("YBot_Run");
+    // let leftRange: any = skeleton.getAnimationRange("YBot_LeftStrafeWalk");
+    // let rightRange: any = skeleton.getAnimationRange("YBot_RightStrafe");
+    // let idleRange: any = skeleton.getAnimationRange("YBot_Idle");
+
+    let animating: boolean = false; 
+
     scene.onBeforeRenderObservable.add(()=> { 
+      let keyDown: boolean = false;
       if (keyDownMap["w"] || keyDownMap["ArrowUp"]) {
       mesh.position.z += 0.1; 
       mesh.rotation.y = 0; 
+      keyDown = true;
       } 
       if (keyDownMap["a"] || keyDownMap["ArrowLeft"]) {
       mesh.position.x -= 0.1; 
-      mesh.rotation.y = 3 * Math.PI / 2; 
+      mesh.rotation.y = 3 * Math.PI / 2;
+      keyDown = true; 
       } 
       if (keyDownMap["s"] || keyDownMap["ArrowDown"]) {
       mesh.position.z -= 0.1; 
-      mesh.rotation.y = 2 * Math.PI / 2; 
+      mesh.rotation.y = 2 * Math.PI / 2;
+      keyDown = true; 
       } 
       if (keyDownMap["d"] || keyDownMap["ArrowRight"]) {
       mesh.position.x += 0.1; 
-      mesh.rotation.y = Math.PI / 2; 
-      } 
+      mesh.rotation.y = Math.PI / 2;
+      keyDown = true; 
+      }
+      
+      if (keyDown) {
+        if (!animating) {
+        animating = true; 
+        scene.beginAnimation(skeleton, walkRange.from, walkRange.to, true);
+        } 
+       } else { 
+        animating = false; 
+        scene.stopAnimation(skeleton);
+       }
       });
      
     });
