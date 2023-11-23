@@ -1,4 +1,5 @@
-import { Engine } from "@babylonjs/core";
+import { Engine, ISceneComponent, ISceneLoaderAsyncResult, ISceneLoaderPlugin, 
+    ISceneLoaderPluginAsync, SceneLoader, Vector3} from "@babylonjs/core";
 import MenuScene from "./MenuScene";
 import GameScene from "./GameScene";
 import './main.css';
@@ -14,7 +15,7 @@ document.body.appendChild(canvas);
 let scene;
 let scenes: any[] = [];
 
-let eng = new Engine(canvas, true, {}, true);
+let eng = new Engine(canvas, true, undefined, true);
 
 scenes[0] = MenuScene(eng);
 scenes[1] = GameScene(eng);
