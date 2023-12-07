@@ -36,7 +36,7 @@ import {
         button.height = "60px";
         button.color = "white";
         button.cornerRadius = 20;
-        button.background = "purple";
+        button.background = "blue";
 
         const buttonClick = new Sound("MenuClickSFX", "./Audio/menu-click.wav", scene, null, {
           loop: false,
@@ -50,6 +50,52 @@ import {
         advtex.addControl(button);
         return button;
     }
+
+    function createSceneButton2(scene: Scene, name: string, index: string, x: string, y: string, advtex) {
+      let button = GUI.Button.CreateSimpleButton(name, index);
+          button.left = x;
+          button.top = y;
+          button.width = "160px";
+          button.height = "60px";
+          button.color = "white";
+          button.cornerRadius = 20;
+          button.background = "Purple";
+  
+          const buttonClick = new Sound("MenuClickSFX", "./Audio/menu-click.wav", scene, null, {
+            loop: false,
+            autoplay: false,
+          });
+  
+          button.onPointerUpObservable.add(function() {
+            buttonClick.play();
+            setSceneIndex(2);
+          });
+          advtex.addControl(button);
+          return button;
+      }
+
+      function createSceneButton3(scene: Scene, name: string, index: string, x: string, y: string, advtex) {
+        let button = GUI.Button.CreateSimpleButton(name, index);
+            button.left = x;
+            button.top = y;
+            button.width = "160px";
+            button.height = "60px";
+            button.color = "white";
+            button.cornerRadius = 20;
+            button.background = "Green";
+    
+            const buttonClick = new Sound("MenuClickSFX", "./Audio/menu-click.wav", scene, null, {
+              loop: false,
+              autoplay: false,
+            });
+    
+            button.onPointerUpObservable.add(function() {
+              buttonClick.play();
+              setSceneIndex(3);
+            });
+            advtex.addControl(button);
+            return button;
+        }
  
   //---------------------------------------------------------
   //---------------------------------------------------------
@@ -117,7 +163,9 @@ import {
     //-------------------------------------------------------
 
     let advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI", true);
-    let button1 = createSceneButton(that.scene, "but1", "Start Game", "0px", "-75px", advancedTexture);
+    let button1 = createSceneButton(that.scene, "but1", "Load Element 3", "0px", "-150px", advancedTexture);
+    let button2 = createSceneButton2(that.scene, "but1", "Load Element 2", "0px", "-75px", advancedTexture);
+    let button3 = createSceneButton3(that.scene, "but1", "Load Element 1", "0px", "0px", advancedTexture);
 
     // Spawn Assets
     that.skybox = createSkybox(that.scene);

@@ -182,6 +182,42 @@ import {
     const boxAggregate = new PhysicsAggregate(box, PhysicsShapeType.BOX, { mass: 1 }, scene);
     return box;
   }
+
+  function createSphere(scene: Scene, x: number, y: number, z: number){
+    let sphere: Mesh = MeshBuilder.CreateSphere("sphere", { });
+    sphere.position.x = x;
+    sphere.position.y = y;
+    sphere.position.z = z;
+    const boxAggregate = new PhysicsAggregate(sphere, PhysicsShapeType.BOX, { mass: 1 }, scene);
+    return sphere;
+  }
+
+  function createTorus(scene: Scene, x: number, y: number, z: number){
+    let torus: Mesh = MeshBuilder.CreateTorus("torus", { });
+    torus.position.x = x;
+    torus.position.y = y;
+    torus.position.z = z;
+    const boxAggregate = new PhysicsAggregate(torus, PhysicsShapeType.BOX, { mass: 1 }, scene);
+    return torus;
+  }
+
+  function createPolyhedra(scene: Scene, x: number, y: number, z: number){
+    let polyhedra: Mesh = MeshBuilder.CreatePolyhedron("polyhedra", { });
+    polyhedra.position.x = x;
+    polyhedra.position.y = y;
+    polyhedra.position.z = z;
+    const boxAggregate = new PhysicsAggregate(polyhedra, PhysicsShapeType.BOX, { mass: 1 }, scene);
+    return polyhedra;
+  }
+
+  function createFacedBox(scene: Scene, x: number, y: number, z: number){
+    let facedbox: Mesh = MeshBuilder.CreateTiledBox("facedbox", { });
+    facedbox.position.x = x;
+    facedbox.position.y = y;
+    facedbox.position.z = z;
+    const boxAggregate = new PhysicsAggregate(facedbox, PhysicsShapeType.BOX, { mass: 1 }, scene);
+    return facedbox;
+  }
     
   function createGround(scene: Scene) {
     const ground: Mesh = MeshBuilder.CreateGround("ground", {height: 10, width: 10, subdivisions: 4});
@@ -198,8 +234,11 @@ import {
       scene: Scene;
       skybox?: Mesh;
       box?: Mesh;
+      faceBox?: Mesh;
       light?: Light;
       sphere?: Mesh;
+      torus?: Mesh;
+      polyhedra?: Mesh;
       ground?: Mesh;
       importMesh?: any;
       actionManager?: any;
@@ -216,6 +255,10 @@ import {
     that.skybox = createSkybox(that.scene);
     that.light = createLight(that.scene);
     that.box = createBox(that.scene, 2, 2, 2);
+    that.sphere = createSphere(that.scene, 1, 1 ,1)
+    that.torus = createTorus(that.scene, -1, 2, 2)
+    that.polyhedra = createPolyhedra(that.scene, -2, 2, 2)
+    that.faceBox = createFacedBox(that.scene, -3, 2, 2)
     that.ground = createGround(that.scene);
     that.importMesh = importPlayerMesh(that.scene, that.box, 0 , 0);
     that.actionManager = actionManager(that.scene);
