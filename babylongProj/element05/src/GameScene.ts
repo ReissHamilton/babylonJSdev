@@ -27,6 +27,7 @@ import {
   import { HavokPlugin, PhysicsAggregate, PhysicsShapeType } from "@babylonjs/core";
   import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
   import { FireProceduralTexture } from '@babylonjs/procedural-textures/fire/fireProceduralTexture';
+  import { MarbleProceduralTexture} from '@babylonjs/procedural-textures/marble/marbleProceduralTexture';
   //---------------------------------------------------------
  
   //---------------------------------------------------------
@@ -175,12 +176,39 @@ import {
     return camera;
   }
 
-  function createBox(scene: Scene, x: number, y: number, z: number){
-    let box: Mesh = MeshBuilder.CreateBox("box", { });
+  function createBox(scene: Scene, x: number, y: number, z: number, rotateNumber: number){
+    var marbleMaterial = new StandardMaterial("torus", scene);
+    var marbleTexture = new MarbleProceduralTexture("marble", 512, scene);
+    marbleTexture.numberOfTilesHeight = 3;
+    marbleTexture.numberOfTilesWidth = 3;
+    marbleMaterial.ambientTexture = marbleTexture;
+
+    rotateNumber;
+    let box: Mesh = MeshBuilder.CreateBox("box", {height: 10, width: 50});
     box.position.x = x;
     box.position.y = y;
     box.position.z = z;
-    const boxAggregate = new PhysicsAggregate(box, PhysicsShapeType.BOX, { mass: 1 }, scene);
+
+    box.rotation.y = rotateNumber;
+    box.material = marbleMaterial;
+    return box;
+  }
+
+  function createFloor(scene: Scene, x: number, y: number, z: number, rotateNumber: number){
+    var marbleMaterial = new StandardMaterial("torus", scene);
+    var marbleTexture = new MarbleProceduralTexture("marble", 512, scene);
+    marbleTexture.numberOfTilesHeight = 3;
+    marbleTexture.numberOfTilesWidth = 3;
+    marbleMaterial.ambientTexture = marbleTexture;
+
+    rotateNumber;
+    let box: Mesh = MeshBuilder.CreateBox("box", {height: 1, width: 10, depth: 5});
+    box.material = marbleMaterial;
+    box.position.x = x;
+    box.position.y = y;
+    box.position.z = z;
+
+    box.rotation.y = rotateNumber;
     return box;
   }
 
@@ -210,24 +238,17 @@ import {
     const boxAggregate = new PhysicsAggregate(polyhedra, PhysicsShapeType.BOX, { mass: 1 }, scene);
     return polyhedra;
   }
-
-  function createFacedBox(scene: Scene, x: number, y: number, z: number){
-    let facedbox: Mesh = MeshBuilder.CreateTiledBox("facedbox", { });
-    facedbox.position.x = x;
-    facedbox.position.y = y;
-    facedbox.position.z = z;
-    const boxAggregate = new PhysicsAggregate(facedbox, PhysicsShapeType.BOX, { mass: 1 }, scene);
-    return facedbox;
-  }
     
   function createGround(scene: Scene) {
-    const ground: Mesh = MeshBuilder.CreateGround("ground", {height: 10, width: 10, subdivisions: 4});
-    const groundAggregate = new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
-
     var fireMaterial = new StandardMaterial("fontainSculptur2", scene);
     var fireTexture = new FireProceduralTexture("fire", 256, scene);
     fireMaterial.diffuseTexture = fireTexture;
     fireMaterial.opacityTexture = fireTexture;
+
+    const ground: Mesh = MeshBuilder.CreateGround("ground", {height: 50, width: 50, subdivisions: 16});
+    const groundAggregate = new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
+    ground.material = fireMaterial;
+  
     return ground;
   }
   //-------------------------------------------------------
@@ -240,6 +261,7 @@ import {
       scene: Scene;
       skybox?: Mesh;
       box?: Mesh;
+      floor?: Mesh;
       faceBox?: Mesh;
       light?: Light;
       sphere?: Mesh;
@@ -260,11 +282,17 @@ import {
     // Spawn Assets
     that.skybox = createSkybox(that.scene);
     that.light = createLight(that.scene);
-    that.box = createBox(that.scene, 2, 2, 2);
+    that.box = createBox(that.scene, 0, 5, 25, 0);
+    that.box = createBox(that.scene, 0, 5, -25, 0);
+    that.box = createBox(that.scene, 25, 5, 0, 300);
+    that.box = createBox(that.scene, -25, 5, 0, 300);
+    that.floor = createFloor(that.scene, 10, 0.5, 0, 0)
+    that.floor = createFloor(that.scene, -10, 0.5, 0, 0)
+    that.floor = createFloor(that.scene, 0, 0.5, 10, 300)
+    that.floor = createFloor(that.scene, 0, 0.5, -10, 300)
     that.sphere = createSphere(that.scene, 1, 1 ,1)
     that.torus = createTorus(that.scene, -1, 2, 2)
     that.polyhedra = createPolyhedra(that.scene, -2, 2, 2)
-    that.faceBox = createFacedBox(that.scene, -3, 2, 2)
     that.ground = createGround(that.scene);
     that.importMesh = importPlayerMesh(that.scene, that.box, 0 , 0);
     that.actionManager = actionManager(that.scene);
