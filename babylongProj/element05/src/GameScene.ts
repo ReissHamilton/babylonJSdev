@@ -26,27 +26,27 @@ import {
     Sound,
   } from "@babylonjs/core";
   import * as GUI from "@babylonjs/gui";
-  import HavokPhysics from "@babylonjs/havok";
-  import { HavokPlugin, PhysicsAggregate, PhysicsShapeType } from "@babylonjs/core";
+  // import HavokPhysics from "@babylonjs/havok";
+  // import { HavokPlugin, PhysicsAggregate, PhysicsShapeType } from "@babylonjs/core";
   import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
   import { FireProceduralTexture } from '@babylonjs/procedural-textures/fire/fireProceduralTexture';
   import { MarbleProceduralTexture} from '@babylonjs/procedural-textures/marble/marbleProceduralTexture';
   //---------------------------------------------------------
  
   //---------------------------------------------------------
-  // Initialisation of physics (Havok)
-  let initializedHavok;
+  // // Initialisation of physics (Havok)
+  // let initializedHavok;
 
-  HavokPhysics().then((havok) => {
-  initializedHavok = havok;
-  });
+  // HavokPhysics().then((havok) => {
+  // initializedHavok = havok;
+  // });
 
-  const havokInstance = await HavokPhysics();
-  const havokPlugin = new HavokPlugin(true, havokInstance);
+  // const havokInstance = await HavokPhysics();
+  // const havokPlugin = new HavokPlugin(true, havokInstance);
   
-  globalThis.HK = await HavokPhysics();
+  // globalThis.HK = await HavokPhysics();
 
-  //---------------------------------------------------------
+  // //---------------------------------------------------------
 
   // MIDDLE OF CODE - FUNCTIONS
   let keyDownMap: any[] = [];
@@ -54,7 +54,7 @@ import {
 
   function importPlayerMesh(scene: Scene, collider: Mesh, x: number, y: number) {
     let tempItem = { flag: false } 
-    let item: any = SceneLoader.ImportMesh("", "./public/models/", "dummy3.babylon", scene, function(newMeshes, particleSystems, skeletons) {
+    let item: any = SceneLoader.ImportMesh("", "./assets/models/", "dummy3.babylon", scene, function(newMeshes, particleSystems, skeletons) {
     let mesh = newMeshes[0];
     let skeleton = skeletons[0];
     skeleton.animationPropertiesOverride = new AnimationPropertiesOverride();
@@ -110,9 +110,9 @@ import {
       });
      
       // Physics Collision
-      item = mesh;
-      let playerAggregate = new PhysicsAggregate(item, PhysicsShapeType.CAPSULE, { mass: 0 }, scene);
-      playerAggregate.body.disablePreStep = false;
+      // item = mesh;
+      // let playerAggregate = new PhysicsAggregate(item, PhysicsShapeType.CAPSULE, { mass: 0 }, scene);
+      // playerAggregate.body.disablePreStep = false;
 
     });
     return item
@@ -147,7 +147,7 @@ import {
     const skybox = MeshBuilder.CreateBox("skyBox", {size:150}, scene);
 	  const skyboxMaterial = new StandardMaterial("skyBox", scene);
 	  skyboxMaterial.backFaceCulling = false;
-	  skyboxMaterial.reflectionTexture = new CubeTexture("public/textures/skybox", scene);
+	  skyboxMaterial.reflectionTexture = new CubeTexture("assets/textures/skybox", scene);
 	  skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
 	  skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
 	  skyboxMaterial.specularColor = new Color3(0, 0, 0);
@@ -256,7 +256,7 @@ import {
     fireMaterial.opacityTexture = fireTexture;
 
     const ground: Mesh = MeshBuilder.CreateGround("ground", {height: 50, width: 50, subdivisions: 16});
-    const groundAggregate = new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
+    // const groundAggregate = new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
     ground.material = fireMaterial;
   
     return ground;
@@ -287,7 +287,7 @@ import {
     let that: SceneData = { scene: new Scene(engine) };
     that.scene.debugLayer.show();
     // Initialise Physics
-    that.scene.enablePhysics(new Vector3(0, -9.8, 0), havokPlugin);
+    // that.scene.enablePhysics(new Vector3(0, -9.8, 0), havokPlugin);
     //-------------------------------------------------------
 
     // Spawn Assets

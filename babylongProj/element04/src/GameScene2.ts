@@ -125,7 +125,7 @@ import {
     const faceUV: Vector4[] = []; // faces for small house
     if (style == 1) {
       boxMat.diffuseTexture = new Texture(
-        "./assets/textures/cubehouse.png"
+        "assets/textures/cubehouse.png"
       );
       faceUV[0] = new Vector4(0.5, 0.0, 0.75, 1.0); //rear face
       faceUV[1] = new Vector4(0.0, 0.0, 0.25, 1.0); //front face
@@ -135,7 +135,7 @@ import {
       // faceUV[5] would be for top but not used
     } else {
       boxMat.diffuseTexture = new Texture(
-        "./assets/textures/semihouse.png"
+        "assets/textures/semihouse.png"
       );
       faceUV[0] = new Vector4(0.6, 0.0, 1.0, 1.0); //rear face
       faceUV[1] = new Vector4(0.0, 0.0, 0.4, 1.0); //front face
@@ -166,7 +166,7 @@ import {
     roof.position.y = 1.22;
     const roofMat = new StandardMaterial("roofMat");
     roofMat.diffuseTexture = new Texture(
-      "./assets/textures/roof.jpg",
+      "assets/textures/roof.jpg",
       scene
     );
     roof.material = roofMat;

@@ -24,7 +24,6 @@ import {
     Sound,
   } from "@babylonjs/core";
   import * as GUI from "@babylonjs/gui";
-  import HavokPhysics from "@babylonjs/havok";
   import { HavokPlugin, PhysicsAggregate, PhysicsShapeType } from "@babylonjs/core";
   //---------------------------------------------------------
   
@@ -38,7 +37,7 @@ import {
         button.cornerRadius = 20;
         button.background = "blue";
 
-        const buttonClick = new Sound("MenuClickSFX", "./Audio/menu-click.wav", scene, null, {
+        const buttonClick = new Sound("MenuClickSFX", "./assets/Audio/menu-click.wav", scene, null, {
           loop: false,
           autoplay: false,
         });
@@ -61,7 +60,7 @@ import {
           button.cornerRadius = 20;
           button.background = "Purple";
   
-          const buttonClick = new Sound("MenuClickSFX", "./Audio/menu-click.wav", scene, null, {
+          const buttonClick = new Sound("MenuClickSFX", "./assets/Audio/menu-click.wav", scene, null, {
             loop: false,
             autoplay: false,
           });
@@ -84,7 +83,7 @@ import {
             button.cornerRadius = 20;
             button.background = "Green";
     
-            const buttonClick = new Sound("MenuClickSFX", "./Audio/menu-click.wav", scene, null, {
+            const buttonClick = new Sound("MenuClickSFX", "./assets/Audio/menu-click.wav", scene, null, {
               loop: false,
               autoplay: false,
             });
@@ -108,7 +107,7 @@ import {
     const skybox = MeshBuilder.CreateBox("skyBox", {size:150}, scene);
 	  const skyboxMaterial = new StandardMaterial("skyBox", scene);
 	  skyboxMaterial.backFaceCulling = false;
-	  skyboxMaterial.reflectionTexture = new CubeTexture("textures/skybox", scene);
+	  skyboxMaterial.reflectionTexture = new CubeTexture("assets/textures/skybox", scene);
 	  skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
 	  skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
 	  skyboxMaterial.specularColor = new Color3(0, 0, 0);
@@ -163,7 +162,6 @@ import {
     //-------------------------------------------------------
 
     let advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI", true);
-    let button1 = createSceneButton(that.scene, "but1", "Load Element 3", "0px", "-150px", advancedTexture);
     let button2 = createSceneButton2(that.scene, "but1", "Load Element 2", "0px", "-75px", advancedTexture);
     let button3 = createSceneButton3(that.scene, "but1", "Load Element 1", "0px", "0px", advancedTexture);
 

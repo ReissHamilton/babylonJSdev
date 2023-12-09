@@ -16,8 +16,7 @@
     "element04build": "tsc && vite build element04",
     "element04preview": "vite preview element04",
     "element05build": "tsc && vite build element05",
-    "element05preview": "vite preview element05",
-    "havok": "/workspaces/babylonJSdev/babylongProj/node_modules/@babylonjs/havok/lib/esm/HavokPhysics.wasm  /workspaces/babylonJSdev/babylongProj/node_modules/.vite/deps"
+    "element05preview": "vite preview element05"
   },
   "devDependencies": {
     "@babylonjs/core": "^6.33.0",
