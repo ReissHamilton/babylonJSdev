@@ -21,7 +21,7 @@ import {
     ExecuteCodeAction,
     AnimationPropertiesOverride
   } from "@babylonjs/core";
-  import HavokPhysics from "@babylonjs/havok";
+  // import HavokPhysics from "@babylonjs/havok";
   import { HavokPlugin, PhysicsAggregate, PhysicsShapeType } from "@babylonjs/core";
   //---------------------------------------------------------
   
@@ -29,14 +29,14 @@ import {
   // Initialisation of physics (Havok)
   let initializedHavok;
 
-  HavokPhysics().then((havok) => {
-  initializedHavok = havok;
-  });
+  // HavokPhysics().then((havok) => {
+  // initializedHavok = havok;
+  // });
 
-  const havokInstance = await HavokPhysics();
-  const havokPlugin = new HavokPlugin(true, havokInstance);
+  // const havokInstance = await HavokPhysics();
+  // const havokPlugin = new HavokPlugin(true, havokInstance);
   
-  globalThis.HK = await HavokPhysics();
+  // globalThis.HK = await HavokPhysics();
 
   //---------------------------------------------------------
 
@@ -245,7 +245,7 @@ import {
     let that: SceneData = { scene: new Scene(engine) };
     that.scene.debugLayer.show();
     // Initialise Physics
-    that.scene.enablePhysics(new Vector3(0, -9.8, 0), havokPlugin);
+    // that.scene.enablePhysics(new Vector3(0, -9.8, 0), havokPlugin);
     //-------------------------------------------------------
 
     // Spawn Assets

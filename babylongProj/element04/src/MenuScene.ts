@@ -37,7 +37,7 @@ import {
         button.cornerRadius = 20;
         button.background = "blue";
 
-        const buttonClick = new Sound("MenuClickSFX", "./public/Audio/menu-click.wav", scene, null, {
+        const buttonClick = new Sound("MenuClickSFX", "./Audio/menu-click.wav", scene, null, {
           loop: false,
           autoplay: false,
         });
@@ -60,7 +60,7 @@ import {
           button.cornerRadius = 20;
           button.background = "Purple";
   
-          const buttonClick = new Sound("MenuClickSFX", "./assets/Audio/menu-click.wav", scene, null, {
+          const buttonClick = new Sound("MenuClickSFX", "./Audio/menu-click.wav", scene, null, {
             loop: false,
             autoplay: false,
           });
@@ -83,7 +83,7 @@ import {
             button.cornerRadius = 20;
             button.background = "Green";
     
-            const buttonClick = new Sound("MenuClickSFX", "./assets/Audio/menu-click.wav", scene, null, {
+            const buttonClick = new Sound("MenuClickSFX", "./Audio/menu-click.wav", scene, null, {
               loop: false,
               autoplay: false,
             });
@@ -107,7 +107,7 @@ import {
     const skybox = MeshBuilder.CreateBox("skyBox", {size:150}, scene);
 	  const skyboxMaterial = new StandardMaterial("skyBox", scene);
 	  skyboxMaterial.backFaceCulling = false;
-	  skyboxMaterial.reflectionTexture = new CubeTexture("assets/textures/skybox", scene);
+	  skyboxMaterial.reflectionTexture = new CubeTexture("/textures/skybox", scene);
 	  skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
 	  skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
 	  skyboxMaterial.specularColor = new Color3(0, 0, 0);
