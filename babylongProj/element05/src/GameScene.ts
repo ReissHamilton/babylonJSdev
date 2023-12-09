@@ -11,13 +11,16 @@ import {
     MeshBuilder,
     Mesh,
     Light,
+    PointLight,
     Camera,
     Engine,
     Texture,
     CubeTexture,
     Color3,
     SceneLoader,
+    ShadowGenerator,
     ActionManager,
+    Space,
     ExecuteCodeAction,
     AnimationPropertiesOverride,
     Sound,
@@ -158,6 +161,17 @@ import {
     light.intensity = 0.7;
     return light;
   }
+
+  function createPointLight(scene: Scene, px: number, py: number, pz: number, colX: number, colY: number, colZ: number, mesh: Mesh)
+  {
+    const pointLight = new PointLight("pointLight", new Vector3(px, py, pz), scene);
+        pointLight.diffuse = new Color3(colX, colY, colZ); //0.39, 0.44, 0.91
+        let shadowGenerator = new ShadowGenerator(1024, pointLight)
+        shadowGenerator = new ShadowGenerator(1024, pointLight);
+        shadowGenerator.addShadowCaster(mesh);
+        shadowGenerator.useExponentialShadowMap = true;
+        return pointLight;
+  }
   
   function createArcRotateCamera(scene: Scene) {
     let camAlpha = -Math.PI / 2,
@@ -191,6 +205,29 @@ import {
 
     box.rotation.y = rotateNumber;
     box.material = marbleMaterial;
+
+    return box;
+  }
+
+  function createSpinningBox(scene: Scene, x: number, y: number, z: number, rotateNumber: number){
+    var marbleMaterial = new StandardMaterial("torus", scene);
+    var marbleTexture = new MarbleProceduralTexture("marble", 512, scene);
+    marbleTexture.numberOfTilesHeight = 3;
+    marbleTexture.numberOfTilesWidth = 3;
+    marbleMaterial.ambientTexture = marbleTexture;
+
+    rotateNumber;
+    let box: Mesh = MeshBuilder.CreateBox("box", {height: 5, width: 5, depth: 5});
+    box.position.x = x;
+    box.position.y = y;
+    box.position.z = z;
+
+    box.rotation.y = rotateNumber;
+    box.material = marbleMaterial;
+
+    scene.registerAfterRender(function () {
+      box.rotate(new Vector3(4, 8, 2)/*axis*/, 0.02/*angle*/, Space.LOCAL);
+    })
     return box;
   }
 
@@ -210,33 +247,6 @@ import {
 
     box.rotation.y = rotateNumber;
     return box;
-  }
-
-  function createSphere(scene: Scene, x: number, y: number, z: number){
-    let sphere: Mesh = MeshBuilder.CreateSphere("sphere", { });
-    sphere.position.x = x;
-    sphere.position.y = y;
-    sphere.position.z = z;
-    const boxAggregate = new PhysicsAggregate(sphere, PhysicsShapeType.BOX, { mass: 1 }, scene);
-    return sphere;
-  }
-
-  function createTorus(scene: Scene, x: number, y: number, z: number){
-    let torus: Mesh = MeshBuilder.CreateTorus("torus", { });
-    torus.position.x = x;
-    torus.position.y = y;
-    torus.position.z = z;
-    const boxAggregate = new PhysicsAggregate(torus, PhysicsShapeType.BOX, { mass: 1 }, scene);
-    return torus;
-  }
-
-  function createPolyhedra(scene: Scene, x: number, y: number, z: number){
-    let polyhedra: Mesh = MeshBuilder.CreatePolyhedron("polyhedra", { });
-    polyhedra.position.x = x;
-    polyhedra.position.y = y;
-    polyhedra.position.z = z;
-    const boxAggregate = new PhysicsAggregate(polyhedra, PhysicsShapeType.BOX, { mass: 1 }, scene);
-    return polyhedra;
   }
     
   function createGround(scene: Scene) {
@@ -261,6 +271,7 @@ import {
       scene: Scene;
       skybox?: Mesh;
       box?: Mesh;
+      spinningbox?: Mesh;
       floor?: Mesh;
       faceBox?: Mesh;
       light?: Light;
@@ -282,17 +293,34 @@ import {
     // Spawn Assets
     that.skybox = createSkybox(that.scene);
     that.light = createLight(that.scene);
+
+    // Create walls
     that.box = createBox(that.scene, 0, 5, 25, 0);
     that.box = createBox(that.scene, 0, 5, -25, 0);
     that.box = createBox(that.scene, 25, 5, 0, 300);
     that.box = createBox(that.scene, -25, 5, 0, 300);
+
+    // Create Spinning
+    that.spinningbox = createSpinningBox(that.scene, 15, 10, 0, 0)
+    that.light = createPointLight(that.scene,  2, 2, 2, 0.75, 0.5, 0.91, that.box);
+
+    that.spinningbox = createSpinningBox(that.scene, -15, 10, 0, 0)
+    that.light = createPointLight(that.scene,  4, 4, 4, 0.75, 0.5, 0.91, that.box);
+
+    that.spinningbox = createSpinningBox(that.scene, 0, 10, 15, 0)
+    that.light = createPointLight(that.scene,  -2, -2, -2, 0.75, 0.5, 0.91, that.box);
+
+    that.spinningbox = createSpinningBox(that.scene, 0, 10, -15, 0)
+    that.light = createPointLight(that.scene,  -4, -4, -4, 0.75, 0.5, 0.91, that.box);
+
+    // Create floor
     that.floor = createFloor(that.scene, 10, 0.5, 0, 0)
     that.floor = createFloor(that.scene, -10, 0.5, 0, 0)
     that.floor = createFloor(that.scene, 0, 0.5, 10, 300)
     that.floor = createFloor(that.scene, 0, 0.5, -10, 300)
-    that.sphere = createSphere(that.scene, 1, 1 ,1)
-    that.torus = createTorus(that.scene, -1, 2, 2)
-    that.polyhedra = createPolyhedra(that.scene, -2, 2, 2)
+    that.floor = createFloor(that.scene, 10, 0.5, -10, 90)
+    that.floor = createFloor(that.scene, -10, 0.5, 10, 90)
+
     that.ground = createGround(that.scene);
     that.importMesh = importPlayerMesh(that.scene, that.box, 0 , 0);
     that.actionManager = actionManager(that.scene);

@@ -133,7 +133,7 @@ import {
   function createGround(scene: Scene) {
     let ground = MeshBuilder.CreateGround(
       "ground",
-      { width: 6, height: 6 },
+      { width: 50, height: 6 },
       scene,
     );
     return ground;
@@ -169,6 +169,7 @@ import {
       sphere?: Mesh;
       torus?: Mesh;
       polyhedra?: Mesh;
+      polyhedra2?: Mesh;
       ground?: Mesh;
       camera?: Camera;
     }
@@ -191,8 +192,8 @@ import {
     that.light = createAnyLight(that.scene, 2, 0, 5, 0, 0.12, 0.64, 0.86, that.torus);
 
     //shape 4
-    that.polyhedra = createPolyhedra(that.scene, 1, 1, 5, 2, 0);
-    that.polyhedra = createSphere(that.scene, 1, 1, 5,);
+    that.polyhedra2 = createPolyhedra(that.scene, 1, 1, 5, 2, 0);
+    that.light = createAnyLight(that.scene, -2, 0, 5, 0, 0.12, 0.64, 0.86, that.polyhedra2);
 
     //shape 5 
     that.polyhedra = createPolyhedra(that.scene, 12, 1, 10, 2, 0);
