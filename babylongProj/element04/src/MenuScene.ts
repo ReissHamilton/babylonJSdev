@@ -37,7 +37,7 @@ import {
         button.cornerRadius = 20;
         button.background = "blue";
 
-        const buttonClick = new Sound("MenuClickSFX", "./assets/Audio/menu-click.wav", scene, null, {
+        const buttonClick = new Sound("MenuClickSFX", "./public/Audio/menu-click.wav", scene, null, {
           loop: false,
           autoplay: false,
         });

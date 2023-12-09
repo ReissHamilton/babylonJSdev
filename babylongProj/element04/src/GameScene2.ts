@@ -59,7 +59,7 @@ import {
     const skybox = MeshBuilder.CreateBox("skyBox", {size:150}, scene);
 	  const skyboxMaterial = new StandardMaterial("skyBox", scene);
 	  skyboxMaterial.backFaceCulling = false;
-	  skyboxMaterial.reflectionTexture = new CubeTexture("assets/textures/skybox", scene);
+	  skyboxMaterial.reflectionTexture = new CubeTexture("public/textures/skybox", scene);
 	  skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
 	  skyboxMaterial.diffuseColor = new Color3(0, 0, 0);
 	  skyboxMaterial.specularColor = new Color3(0, 0, 0);
@@ -69,7 +69,7 @@ import {
 
   // Creating sprite trees
   function createTrees(scene: Scene) {
-    const spriteManagerTrees = new SpriteManager("treesManager", "assets/textures/palmtree.png", 2000, {width: 512, height: 1024}, scene);
+    const spriteManagerTrees = new SpriteManager("treesManager", "public/textures/palmtree.png", 2000, {width: 512, height: 1024}, scene);
 
     //We create trees at random positions
     for (let i = 0; i < 500; i++) {
@@ -125,7 +125,7 @@ import {
     const faceUV: Vector4[] = []; // faces for small house
     if (style == 1) {
       boxMat.diffuseTexture = new Texture(
-        "assets/textures/cubehouse.png"
+        "public/textures/cubehouse.png"
       );
       faceUV[0] = new Vector4(0.5, 0.0, 0.75, 1.0); //rear face
       faceUV[1] = new Vector4(0.0, 0.0, 0.25, 1.0); //front face
@@ -135,7 +135,7 @@ import {
       // faceUV[5] would be for top but not used
     } else {
       boxMat.diffuseTexture = new Texture(
-        "assets/textures/semihouse.png"
+        "public/textures/semihouse.png"
       );
       faceUV[0] = new Vector4(0.6, 0.0, 1.0, 1.0); //rear face
       faceUV[1] = new Vector4(0.0, 0.0, 0.4, 1.0); //front face
@@ -166,7 +166,7 @@ import {
     roof.position.y = 1.22;
     const roofMat = new StandardMaterial("roofMat");
     roofMat.diffuseTexture = new Texture(
-      "assets/textures/roof.jpg",
+      "public/textures/roof.jpg",
       scene
     );
     roof.material = roofMat;
